@@ -36,7 +36,7 @@ export function Comments() {
   }, []);
 
   return (
-    <section className="p-2">
+    <section className="max-w-2xl p-4">
       <h2 className="font-bold">Comments</h2>
       <div ref={ref} />
     </section>
