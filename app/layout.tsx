@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Tabs } from "@/components/Tabs";
+import { ThemeToggle, themeInitScript } from "@/components/ThemeToggle";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -16,10 +17,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="flex min-h-screen flex-col">
-        <header className="p-2">
+    // suppressHydrationWarning: the init script adds the "dark" class before React hydrates.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-white text-black dark:bg-neutral-900 dark:text-neutral-100">
+        <header className="flex items-center justify-between p-2">
           <h1 className="text-xl font-bold">{site.title}</h1>
+          <ThemeToggle />
         </header>
         <Tabs />
         <main>{children}</main>

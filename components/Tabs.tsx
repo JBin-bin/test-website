@@ -16,7 +16,7 @@ export function Tabs() {
             key={tab.href}
             href={tab.href}
             aria-current={active ? "page" : undefined}
-            className={active ? "font-bold" : "text-blue-700 underline"}
+            className={active ? "font-bold" : "text-blue-700 underline dark:text-blue-400"}
           >
             {tab.label}
           </Link>

@@ -1,7 +1,7 @@
 import { buildInfo } from "@/lib/build-info";
 import { site } from "@/lib/site";
 
-const link = "text-blue-700 underline";
+const link = "text-blue-700 underline dark:text-blue-400";
 
 export function Footer() {
   return (

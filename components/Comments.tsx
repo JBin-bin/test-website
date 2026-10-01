@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { currentTheme } from "@/components/ThemeToggle";
 import { site } from "@/lib/site";
 
 // Giscus stores comments as GitHub Discussions in the repo; one thread per page path.
@@ -26,13 +27,26 @@ export function Comments() {
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
-      "data-theme": "light",
+      "data-theme": currentTheme(),
       "data-lang": "en",
       "data-loading": "lazy",
     }).forEach(([key, value]) => script.setAttribute(key, value));
 
     container.appendChild(script);
-    return () => container.replaceChildren();
+
+    // Giscus lives in an iframe, so tell it about theme switches via postMessage.
+    const onThemeChange = (e: Event) => {
+      const theme = (e as CustomEvent<string>).detail;
+      container
+        .querySelector<HTMLIFrameElement>("iframe.giscus-frame")
+        ?.contentWindow?.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
+    };
+    window.addEventListener("themechange", onThemeChange);
+
+    return () => {
+      window.removeEventListener("themechange", onThemeChange);
+      container.replaceChildren();
+    };
   }, []);
 
   return (
